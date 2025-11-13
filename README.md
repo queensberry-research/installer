@@ -1,1 +1,1 @@
-# `dycw-template`
+# `test-remote-script`
