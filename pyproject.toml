@@ -20,7 +20,7 @@
   name = "test-remote-script"
   readme = "README.md"
   requires-python = ">= 3.14"
-  version = "0.1.5"
+  version = "0.1.6"
 
   [project.scripts]
     test-remote-script = "test_remote_script.main:_main"
@@ -32,7 +32,7 @@
   # bump-my-version
   [tool.bumpversion]
     allow_dirty = true
-    current_version = "0.1.5"
+    current_version = "0.1.6"
 
     [[tool.bumpversion.files]]
       filename = "entrypoint.py"

@@ -23,7 +23,7 @@ _IS_ROOT = getuid() == 0
 _SUDO = "" if _IS_ROOT else "sudo "
 _REPO_URL = "https://github.com/dycw/test-remote-script.git"
 _REPO_ROOT = Path("/tmp/test-remote-script")  # noqa: S108
-__version__ = "0.1.5"
+__version__ = "0.1.6"
 
 
 def _main() -> None:
@@ -39,7 +39,8 @@ def _main() -> None:
         _LOGGER.info("Switching %r to %r...", str(path), version)
         _run(f"git checkout {version}", cwd=path)
     _install_uv()
-    _LOGGER.info("Rest of the args: %s", args)
+    cmd = " ".join(["uv run python3 -m test_remote_script.main", *args])
+    _LOGGER.info("Running: %r", cmd)
 
 
 @dataclass(order=True, unsafe_hash=True, kw_only=True, slots=True)
