@@ -17,8 +17,8 @@ def run(
     /,
     *,
     output: Literal[True],
-    cwd: Path | str | None = None,
     failable: Literal[True],
+    cwd: Path | str | None = None,
 ) -> str | None: ...
 @overload
 def run(
@@ -26,8 +26,8 @@ def run(
     /,
     *,
     output: Literal[True],
-    cwd: Path | str | None = None,
     failable: Literal[False] = False,
+    cwd: Path | str | None = None,
 ) -> str: ...
 @overload
 def run(
@@ -35,8 +35,17 @@ def run(
     /,
     *,
     output: Literal[False] = False,
+    failable: Literal[True],
     cwd: Path | str | None = None,
-    failable: bool = False,
+) -> bool: ...
+@overload
+def run(
+    cmd: str,
+    /,
+    *,
+    output: Literal[False] = False,
+    failable: Literal[False] = False,
+    cwd: Path | str | None = None,
 ) -> None: ...
 @overload
 def run(
@@ -44,34 +53,43 @@ def run(
     /,
     *,
     output: bool = False,
-    cwd: Path | str | None = None,
     failable: bool = False,
-) -> str | None: ...
+    cwd: Path | str | None = None,
+) -> bool | str | None: ...
 def run(
     cmd: str,
     /,
     *,
     output: bool = False,
-    cwd: Path | str | None = None,
     failable: bool = False,
-) -> str | None:
-    match output:
-        case False:
+    cwd: Path | str | None = None,
+) -> bool | str | None:
+    match output, failable:
+        case False, False:
             try:
                 _ = check_call(cmd, stdout=PIPE, stderr=PIPE, shell=True, cwd=cwd)
             except CalledProcessError as error:
-                if failable:
-                    return None
                 _run_handle_error(cmd, error)
-        case True:
+        case False, True:
+            try:
+                _ = check_call(cmd, stdout=PIPE, stderr=PIPE, shell=True, cwd=cwd)
+            except CalledProcessError:
+                return False
+            return True
+        case True, False:
             try:
                 return check_output(
                     cmd, stderr=PIPE, shell=True, cwd=cwd, text=True
                 ).rstrip("\n")
             except CalledProcessError as error:
-                if failable:
-                    return None
                 _run_handle_error(cmd, error)
+        case True, True:
+            try:
+                return check_output(
+                    cmd, stderr=PIPE, shell=True, cwd=cwd, text=True
+                ).rstrip("\n")
+            except CalledProcessError:
+                return None
         case never:
             assert_never(never)
 

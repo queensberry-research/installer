@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from logging import getLogger
-from subprocess import CalledProcessError
 
 from click import command, option
 from utilities.click import CONTEXT_SETTINGS_HELP_OPTION_NAMES
@@ -32,14 +31,12 @@ def _main(*, asdf: bool, create_non_root: bool = False) -> None:
 
 
 def _create_non_root() -> None:
-    try:
-        run(f"id -u {NONROOT}")
-    except CalledProcessError:
+    if run(f"id -u {NONROOT}", failable=True):
+        _LOGGER.info("%r already exists", NONROOT)
+    else:
         _LOGGER.info("Creating %r...", NONROOT)
         run(f"useradd --create-home --shell /bin/bash {NONROOT}")
         run(f"usermod -aG sudo {NONROOT}")
-    else:
-        _LOGGER.info("%r already exists", NONROOT)
 
 
 if __name__ == "__main__":
