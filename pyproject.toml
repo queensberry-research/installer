@@ -7,15 +7,15 @@
 
 # dependency groups
 [dependency-groups]
-  dev = ["dycw-utilities[test]", "pyright[nodejs]", "rich"]
+  dev = ["dycw-utilities[test]", "orjson", "pyright[nodejs]", "rich"]
 
 # project
 [project]
   authors = [{ email = "d.wan@icloud.com", name = "Derek Wan" }]
   dependencies = [
-    "click >=8.3.0",
-    "coloredlogs >=15.0.1",
-    "dycw-utilities >=0.169.5",
+    "click >=8.3.0, <8.4",
+    "coloredlogs >=15.0.1, <15.1",
+    "dycw-utilities >=0.169.5, <0.170",
   ]
   name = "installer"
   readme = "README.md"

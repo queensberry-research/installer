@@ -22,7 +22,7 @@ _LOGGER = getLogger(__name__)
 _IS_ROOT = getuid() == 0
 _SUDO = "" if _IS_ROOT else "sudo "
 _REPO_URL = "https://github.com/dycw/test-remote-script.git"
-_REPO_ROOT = Path("/tmp/installer")  # noqa: S108
+_REPO_PATH = Path("/tmp/installer")  # noqa: S108
 __version__ = "0.1.8"
 
 
@@ -41,7 +41,7 @@ def _main() -> None:
 @dataclass(order=True, unsafe_hash=True, kw_only=True, slots=True)
 class _Settings:
     url: str = _REPO_URL
-    path: Path = _REPO_ROOT
+    path: Path = _REPO_PATH
     version: str | None = None
 
     @classmethod
@@ -55,7 +55,7 @@ class _Settings:
             "--repo-url", type=str, default=_REPO_URL, help="Repo URL", dest="url"
         )
         _ = parser.add_argument(
-            "--repo-path", type=Path, default=_REPO_ROOT, help="Repo path", dest="path"
+            "--repo-path", type=Path, default=_REPO_PATH, help="Repo path", dest="path"
         )
         _ = parser.add_argument(
             "--repo-version",
