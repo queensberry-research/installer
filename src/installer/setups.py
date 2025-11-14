@@ -58,7 +58,7 @@ def setup_profile() -> None:
 def setup_subnet_env_var() -> None:
     try:
         subnet = get_subnet()
-    except KeyError, ValueError:
+    except (KeyError, ValueError):
         _LOGGER.warning("Unable to determine subnet")
         return
     src = CONFIGS_PROFILE / "subnet.sh"
