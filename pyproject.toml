@@ -87,14 +87,7 @@
 
   # pytest
   [tool.pytest]
-    addopts = [
-      "-ra",
-      "-vv",
-      "--color=auto",
-      "--cov=test_remote_script",
-      "--cov-config=pyproject.toml",
-      "--cov-report=html",
-    ]
+    addopts = ["-ra", "-vv", "--color=auto"]
     asyncio_default_fixture_loop_scope = "function"
     asyncio_mode = "auto"
     collect_imported_tests = false
