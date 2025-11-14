@@ -8,8 +8,8 @@ from os import getuid
 from pathlib import Path
 from shutil import which
 from socket import gethostname
-from subprocess import DEVNULL, CalledProcessError, check_call
-from typing import Any, Self
+from subprocess import DEVNULL, CalledProcessError, check_call, check_output
+from typing import Any, Literal, Self, overload
 
 # THIS MODULE CANNOT CONTAIN ANY THIRD PARTY IMPORTS
 
@@ -89,9 +89,9 @@ def _ensure_repo_version(path: Path | str, /, *, version: str | None = None) -> 
     if version is None:
         return
     try:
-        current = _run("git describe --tags --exact-match", cwd=path)
+        current = _run("git describe --tags --exact-match", output=True, cwd=path)
     except CalledProcessError:
-        current = _run("git rev-parse --abbrev-ref HEAD", cwd=path)
+        current = _run("git rev-parse --abbrev-ref HEAD", output=True, cwd=path)
     _LOGGER.info("Got current=%r, version=%r", current, version)
     if current == version:
         _LOGGER.info("Git pulling...")
@@ -112,8 +112,25 @@ def _install_uv() -> None:
     _run(f"chmod +x {path}/{{uv, uvx}}")
 
 
-def _run(cmd: str, /, *, cwd: Path | str | None = None) -> None:
+@overload
+def _run(
+    cmd: str, /, *, output: Literal[True], cwd: Path | str | None = None
+) -> str: ...
+@overload
+def _run(
+    cmd: str, /, *, output: Literal[False] = False, cwd: Path | str | None = None
+) -> None: ...
+@overload
+def _run(
+    cmd: str, /, *, output: bool = False, cwd: Path | str | None = None
+) -> str | None: ...
+def _run(
+    cmd: str, /, *, output: bool = False, cwd: Path | str | None = None
+) -> str | None:
+    if output:
+        return check_output(cmd, stderr=DEVNULL, shell=True, cwd=cwd, text=True)
     _ = check_call(cmd, stdout=DEVNULL, stderr=DEVNULL, shell=True, cwd=cwd)
+    return None
 
 
 if __name__ == "__main__":
