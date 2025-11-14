@@ -3,17 +3,14 @@ from __future__ import annotations
 from logging import getLogger
 from pathlib import Path
 
-from installer.constants import CONFIGS
+from installer.constants import CONFIGS_PROXMOX, CONFIGS_PROXMOX_STORAGE_CFG
 from installer.utilities import copy, dpkg_install, is_copied, yield_github_download
 
 _LOGGER = getLogger(__name__)
-_CONFIGS_PROXMOX = CONFIGS / "proxmox"
 
 
 def setup_proxmox(
-    *,
-    storage_cfg: Path = _CONFIGS_PROXMOX / "storage.cfg",
-    pbs_password: str | None = None,
+    *, storage_cfg: Path = CONFIGS_PROXMOX_STORAGE_CFG, pbs_password: str | None = None
 ) -> None:
     _LOGGER.info("Setting up Proxmox...")
     _remove_sources()
@@ -49,25 +46,22 @@ def _setup_pve_fake_subscription() -> None:
         path.touch()
 
 
-def _setup_storage_cfg(*, src: Path = _CONFIGS_PROXMOX / "storage.cfg") -> None:
+def _setup_storage_cfg(*, src: Path = CONFIGS_PROXMOX_STORAGE_CFG) -> None:
     dest = Path("/etc/pve/storage.cfg")
     if is_copied(src, dest):
-        _LOGGER.info("%r is already copied", str(str))
+        _LOGGER.info("%r is already copied", str(src))
     else:
-        _LOGGER.info("Copying %r...", str(str))
+        _LOGGER.info("Copying %r...", str(src))
         copy(src, dest)
 
 
 def _setup_pbs_data_pw(*, password: str | None = None) -> None:
+    dest = Path("/etc/pve/priv/storage/pbs-data.pw")
     if password is None:
-        _LOGGER.info("Skipping 'pbs-data.pw'...")
+        _LOGGER.info("Skipping %r", str(dest))
     else:
-        _LOGGER.info("Writing 'pbs-data.pw'...")
-        copy(
-            _CONFIGS_PROXMOX / "pbs-data.pw",
-            Path("/etc/pve/priv/storage/pbs-data.pw"),
-            password=password,
-        )
+        _LOGGER.info("Writing %r...", str(dest))
+        copy(CONFIGS_PROXMOX / "pbs-data.pw", dest, password=password)
 
 
 __all__ = ["setup_proxmox"]
