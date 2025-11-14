@@ -5,7 +5,7 @@ from pathlib import Path
 
 from utilities.os import is_pytest
 
-from installer.constants import CONFIGS_BASH, CONFIGS_SSH, NONROOT, ROOT
+from installer.constants import CONFIGS_PROFILE, CONFIGS_SSH, NONROOT, ROOT
 from installer.utilities import (
     copy,
     get_subnet,
@@ -46,7 +46,7 @@ def _set_password_one(username: str, password: str, /) -> None:
 def setup_profile() -> None:
     if is_pytest():
         return
-    src = CONFIGS_BASH / "default.sh"
+    src = CONFIGS_PROFILE / "default.sh"
     dest = Path("/etc/profile.d/default.sh")
     if is_copied(src, dest):
         _LOGGER.info("%r -> %r is already copied", str(src), str(dest))
@@ -61,7 +61,7 @@ def setup_subnet_env_var() -> None:
     except KeyError, ValueError:
         _LOGGER.warning("Unable to determine subnet")
         return
-    src = CONFIGS_BASH / "subnet.sh"
+    src = CONFIGS_PROFILE / "subnet.sh"
     text = substitute(src.read_text(), subnet=subnet.value)
     dest = Path("/etc/profile.d/subnet.sh")
     if is_copied(text, dest):
