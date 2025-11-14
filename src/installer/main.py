@@ -19,6 +19,7 @@ from installer.setups import (
     setup_ssh_authorized_keys,
     setup_ssh_config_d,
     setup_sshd_config_d,
+    setup_subnet_env_var,
 )
 from installer.utilities import is_lxc, is_proxmox, is_vm
 
@@ -91,6 +92,7 @@ def _main(
     setup_ssh_authorized_keys(ssh_authorized_keys)
     setup_ssh_config_d()
     setup_sshd_config_d()
+    setup_subnet_env_var()
     install_starship()
     if docker:
         install_docker()

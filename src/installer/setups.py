@@ -6,7 +6,14 @@ from pathlib import Path
 from utilities.os import is_pytest
 
 from installer.constants import CONFIGS_BASH, CONFIGS_SSH, NONROOT, ROOT
-from installer.utilities import copy, has_non_root, is_copied, run
+from installer.utilities import (
+    copy,
+    get_subnet,
+    has_non_root,
+    is_copied,
+    run,
+    substitute,
+)
 
 _LOGGER = getLogger(__name__)
 
@@ -42,6 +49,22 @@ def setup_bash() -> None:
     src = CONFIGS_BASH / "default.bash"
     dest = Path("/etc/profile.d/default.bash")
     if is_copied(src, dest):
+        _LOGGER.info("%r -> %r is already copied", str(src), str(dest))
+    else:
+        _LOGGER.info("Copying %r -> %r...", str(src), str(dest))
+        copy(src, dest)
+
+
+def setup_subnet_env_var() -> None:
+    try:
+        subnet = get_subnet()
+    except KeyError, ValueError:
+        _LOGGER.warning("Unable to determine subnet")
+        return
+    src = CONFIGS_BASH / "subnet.bash"
+    text = substitute(src.read_text(), subnet=subnet.value)
+    dest = Path("/etc/profile.d/subnet.bash")
+    if is_copied(text, dest):
         _LOGGER.info("%r -> %r is already copied", str(src), str(dest))
     else:
         _LOGGER.info("Copying %r -> %r...", str(src), str(dest))
@@ -92,4 +115,5 @@ __all__ = [
     "setup_ssh_authorized_keys",
     "setup_ssh_config_d",
     "setup_sshd_config_d",
+    "setup_subnet_env_var",
 ]
