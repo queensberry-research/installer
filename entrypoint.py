@@ -88,12 +88,13 @@ def _ensure_repo_cloned(url: str, path: Path, /) -> None:
 def _ensure_repo_version(path: Path | str, /, *, version: str | None = None) -> None:
     if version is None:
         return
-    try:
-        current = _run(
-            "git describe --tags --exact-match", output=True, cwd=path, failable=True
-        )
-    except CalledProcessError:
+    tag = _run(
+        "git describe --tags --exact-match", output=True, cwd=path, failable=True
+    )
+    if tag is None:
         current = _run("git rev-parse --abbrev-ref HEAD", output=True, cwd=path)
+    else:
+        current = tag
     if current == version:
         _LOGGER.info("Pulling %r on %r...", str(path), current)
         try:
@@ -127,7 +128,16 @@ def _run(
     *,
     output: Literal[True],
     cwd: Path | str | None = None,
-    failable: bool = False,
+    failable: Literal[True],
+) -> str | None: ...
+@overload
+def _run(
+    cmd: str,
+    /,
+    *,
+    output: Literal[True],
+    cwd: Path | str | None = None,
+    failable: Literal[False] = False,
 ) -> str: ...
 @overload
 def _run(
