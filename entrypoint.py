@@ -104,6 +104,7 @@ def _ensure_repo_version(path: Path | str, /, *, version: str | None = None) -> 
             _run(f"git branch -D {current}", cwd=path)
             _run(f"git checkout {version}", cwd=path)
         return
+    _LOGGER.info("We got curr = %r, ver = %r", current, version)
     _LOGGER.info("Switching %r to %r...", str(path), version)
     _run(f"git checkout {version}", cwd=path)
 
