@@ -34,7 +34,8 @@ def _main() -> None:
     _install_uv()
     cmd = " ".join(["uv run python3 -m test_remote_script.main", *args])
     _LOGGER.info("Running: %r", cmd)
-    _LOGGER.info(_run(cmd, output=True, cwd=settings.path))
+    _LOGGER.info("Running 2: %r", cmd)
+    _ = check_call(cmd, shell=True, cwd=settings.path)
 
 
 @dataclass(order=True, unsafe_hash=True, kw_only=True, slots=True)
