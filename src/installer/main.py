@@ -55,7 +55,7 @@ _LOGGER = getLogger(__name__)
 )
 @option("--password", type=str, default=None, show_default=True, help="Password")
 @option(
-    "--authorized-keys",
+    "--ssh-authorized-keys",
     type=click.Path(exists=True, file_okay=True, dir_okay=False, path_type=Path),
     default=CONFIGS_SSH_AUTHORIZED_KEYS,
     show_default=True,
@@ -75,6 +75,7 @@ def _main(
     proxmox_pbs_password: str | None,
     create_non_root: bool,
     password: str | None,
+    ssh_authorized_keys: Path,
     docker: bool,
 ) -> None:
     _LOGGER.info("Running installer %s...", __version__)
@@ -85,7 +86,7 @@ def _main(
     if create_non_root:
         installer.setups.create_non_root()
     set_password(password=password)
-    setup_ssh_authorized_keys()
+    setup_ssh_authorized_keys(ssh_authorized_keys)
     setup_ssh_config_d()
     setup_sshd_config_d()
     if docker:
