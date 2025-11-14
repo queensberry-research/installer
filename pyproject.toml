@@ -1,5 +1,3 @@
-#
-
 # build-system
 [build-system]
   build-backend = "uv_build"
@@ -16,11 +14,13 @@
     "click >=8.3.0, <8.4",
     "coloredlogs >=15.0.1, <15.1",
     "dycw-utilities >=0.169.5, <0.170",
+    "pydantic-settings >=2.12.0, <2.13",
+    "requests >=2.32.5, <2.33",
   ]
   name = "installer"
   readme = "README.md"
   requires-python = ">= 3.14"
-  version = "0.1.8"
+  version = "0.1.9"
 
   [project.scripts]
     installer = "installer.main:_main"
@@ -32,7 +32,7 @@
   # bump-my-version
   [tool.bumpversion]
     allow_dirty = true
-    current_version = "0.1.8"
+    current_version = "0.1.9"
 
     [[tool.bumpversion.files]]
       filename = "entrypoint.py"
@@ -170,6 +170,11 @@
       ]
 
       [tool.ruff.lint.extend-per-file-ignores]
+        "src/installer/settings.py" = [
+          "TC001", # typing-only-first-party-import
+          "TC002", # typing-only-third-party-import
+          "TC003", # typing-only-standard-library-import
+        ]
         "src/tests/**/*.py" = [
           "S101", # assert-used
         ]

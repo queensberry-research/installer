@@ -1,0 +1,8 @@
+[downloads]
+  chunk_size = 8192
+  timeout = 30
+
+[subnets]
+  main = 50
+  qrt = 20
+  test = 60
