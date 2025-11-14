@@ -46,9 +46,7 @@ class _Settings:
     @classmethod
     def parse(cls) -> tuple[Self, Any]:
         parser = ArgumentParser(
-            formatter_class=ArgumentDefaultsHelpFormatter,
-            add_help=False,
-            suggest_on_error=True,
+            formatter_class=ArgumentDefaultsHelpFormatter, add_help=False
         )
         _ = parser.add_argument(
             "--repo-url", type=str, default=_REPO_URL, help="Repo URL", dest="url"
