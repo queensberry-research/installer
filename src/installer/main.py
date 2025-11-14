@@ -12,14 +12,15 @@ import installer.setups
 from installer import __version__
 from installer.constants import CONFIGS_PROXMOX_STORAGE_CFG, CONFIGS_SSH_AUTHORIZED_KEYS
 from installer.envs.proxmox import setup_proxmox
-from installer.installs import install_docker
+from installer.installs import install_docker, install_starship
 from installer.setups import (
     set_password,
+    setup_bash,
     setup_ssh_authorized_keys,
     setup_ssh_config_d,
     setup_sshd_config_d,
 )
-from installer.utilities import is_lxc, is_proxmox
+from installer.utilities import is_lxc, is_proxmox, is_vm
 
 _LOGGER = getLogger(__name__)
 
@@ -64,7 +65,7 @@ _LOGGER = getLogger(__name__)
 @option(
     "--docker/--no-docker",
     is_flag=True,
-    default=is_lxc(),
+    default=is_lxc() or is_vm(),
     show_default=True,
     help="Install Docker",
 )
@@ -86,9 +87,11 @@ def _main(
     if create_non_root:
         installer.setups.create_non_root()
     set_password(password=password)
+    setup_bash()
     setup_ssh_authorized_keys(ssh_authorized_keys)
     setup_ssh_config_d()
     setup_sshd_config_d()
+    install_starship()
     if docker:
         install_docker()
     _LOGGER.info("Finished running installer %s", __version__)

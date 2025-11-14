@@ -5,7 +5,7 @@ from pathlib import Path
 
 from utilities.os import is_pytest
 
-from installer.constants import CONFIGS_SSH, NONROOT, ROOT
+from installer.constants import CONFIGS_BASH, CONFIGS_SSH, NONROOT, ROOT
 from installer.utilities import copy, has_non_root, is_copied, run
 
 _LOGGER = getLogger(__name__)
@@ -24,17 +24,28 @@ def set_password(*, password: str | None = None) -> None:
     if password is None:
         _LOGGER.info("Skipping password(s)")
         return
-    _LOGGER.info("Setting %r password...", ROOT)
     _set_password_one(ROOT, password)
     if has_non_root():
-        _LOGGER.info("Setting %r password...", NONROOT)
         _set_password_one(NONROOT, password)
     else:
         _LOGGER.info("Skipping %r; user does not exist", NONROOT)
 
 
 def _set_password_one(username: str, password: str, /) -> None:
+    _LOGGER.info("Setting %r password...", ROOT)
     run(f"echo '{username}:{password}' | chpasswd")
+
+
+def setup_bash() -> None:
+    if is_pytest():
+        return
+    src = CONFIGS_BASH / "default.bash"
+    dest = Path("/etc/profile.d/default.conf")
+    if is_copied(src, dest):
+        _LOGGER.info("%r -> %r is already copied", str(src), str(dest))
+    else:
+        _LOGGER.info("Copying %r -> %r...", str(src), str(dest))
+        copy(src, dest)
 
 
 def setup_ssh_authorized_keys(*srcs: Path) -> None:
@@ -77,6 +88,7 @@ def setup_sshd_config_d() -> None:
 __all__ = [
     "create_non_root",
     "set_password",
+    "setup_bash",
     "setup_ssh_authorized_keys",
     "setup_ssh_config_d",
     "setup_sshd_config_d",

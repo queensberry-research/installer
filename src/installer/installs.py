@@ -1,10 +1,18 @@
 from __future__ import annotations
 
 from logging import getLogger
+from pathlib import Path
 from shutil import which
 
-from installer.constants import NONROOT
-from installer.utilities import has_non_root, run
+from installer.constants import CONFIGS, NONROOT
+from installer.utilities import (
+    apt_install,
+    apt_installed,
+    copy,
+    has_non_root,
+    is_copied,
+    run,
+)
 
 _LOGGER = getLogger(__name__)
 
@@ -34,8 +42,33 @@ DOCKEREOF""")
         run(
             "apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
         )
+    else:
+        _LOGGER.info("'docker' is already installed")
     if has_non_root():
         run(f"usermod -aG docker {NONROOT}")
 
 
-__all__ = ["install_docker"]
+def install_nfs_common() -> None:
+    if apt_installed("nfs-common"):
+        _LOGGER.info("'nfs-common' is already installed")
+        return
+    _LOGGER.info("Installing 'nfs-common'...")
+    apt_install("nfs-common")
+
+
+def install_starship() -> None:
+    if which("starship") is None:
+        _LOGGER.info("Installing 'starship'...")
+        run("curl -sS https://starship.rs/install.sh | sh -s -- -b /usr/local/bin -y")
+    else:
+        _LOGGER.info("'starship' is already installed")
+    src = CONFIGS / "starship/starship.toml"
+    dest = Path("/etc/starship.toml")
+    if is_copied(src, dest):
+        _LOGGER.info("%r -> %r is already copied", str(src), str(dest))
+    else:
+        _LOGGER.info("Copying %r -> %r...", str(src), str(dest))
+        copy(src, dest)
+
+
+__all__ = ["install_docker", "install_nfs_common", "install_starship"]
