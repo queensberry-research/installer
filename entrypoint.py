@@ -34,7 +34,6 @@ def _main() -> None:
     _install_uv()
     cmd = " ".join(["uv run python3 -m installer.main", *args])
     _LOGGER.info("Running: %r", cmd)
-    _LOGGER.info("Running 2: %r", cmd)
     _ = check_call(cmd, shell=True, cwd=settings.path)
 
 
