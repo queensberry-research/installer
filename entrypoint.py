@@ -9,7 +9,7 @@ from pathlib import Path
 from shutil import which
 from socket import gethostname
 from subprocess import DEVNULL, CalledProcessError, check_call, check_output
-from typing import Any, Literal, Self, overload
+from typing import Any, Literal, Self, assert_never, overload
 
 # THIS MODULE CANNOT CONTAIN ANY THIRD PARTY IMPORTS
 
@@ -132,12 +132,25 @@ def _run(
 def _run(
     cmd: str, /, *, output: bool = False, cwd: Path | str | None = None
 ) -> str | None:
-    if output:
-        return check_output(cmd, stderr=DEVNULL, shell=True, cwd=cwd, text=True).rstrip(
-            "\n"
-        )
-    _ = check_call(cmd, stdout=DEVNULL, stderr=DEVNULL, shell=True, cwd=cwd)
-    return None
+    match output:
+        case False:
+            _ = check_call(cmd, stdout=DEVNULL, stderr=DEVNULL, shell=True, cwd=cwd)
+            return None
+        case True:
+            try:
+                return check_output(
+                    cmd, stderr=DEVNULL, shell=True, cwd=cwd, text=True
+                ).rstrip("\n")
+            except CalledProcessError as error:
+                _LOGGER.exception(
+                    "Failed running %r:\n\nstdout:\n%s\n\nstderr:\n%s",
+                    cmd,
+                    error.stdout,
+                    error.stderr,
+                )
+                raise
+        case never:
+            assert_never(never)
 
 
 if __name__ == "__main__":
