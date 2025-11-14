@@ -277,7 +277,6 @@ dependencies = [
     { name = "coloredlogs" },
     { name = "dycw-utilities" },
     { name = "pydantic-settings" },
-    { name = "pydantic-settings-sops" },
     { name = "requests" },
 ]
 
@@ -295,7 +294,6 @@ requires-dist = [
     { name = "coloredlogs", specifier = ">=15.0.1,<15.1" },
     { name = "dycw-utilities", specifier = ">=0.169.5,<0.170" },
     { name = "pydantic-settings", specifier = ">=2.12.0,<2.13" },
-    { name = "pydantic-settings-sops", specifier = ">=0.1.2,<0.2" },
     { name = "requests", specifier = ">=2.32.5,<2.33" },
 ]
 
@@ -594,19 +592,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/43/4b/ac7e0aae12027748076d72a8764ff1c9d82ca75a7a52622e67ed3f765c54/pydantic_settings-2.12.0.tar.gz", hash = "sha256:005538ef951e3c2a68e1c08b292b5f2e71490def8589d4221b95dab00dafcfd0", size = 194184, upload-time = "2025-11-10T14:25:47.013Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c1/60/5d4751ba3f4a40a6891f24eec885f51afd78d208498268c734e256fb13c4/pydantic_settings-2.12.0-py3-none-any.whl", hash = "sha256:fddb9fd99a5b18da837b29710391e945b1e30c135477f484084ee513adb93809", size = 51880, upload-time = "2025-11-10T14:25:45.546Z" },
-]
-
-[[package]]
-name = "pydantic-settings-sops"
-version = "0.1.2"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pydantic-settings" },
-    { name = "sopsy" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/04/7b/e45527771f7f92a1a31bd569a3b092c70ba33b50e8bf7dc18189e8e74057/pydantic_settings_sops-0.1.2.tar.gz", hash = "sha256:8d03ea8233cec696b4737563947bc668a7cd4a2773252b40948f850784d718cd", size = 57702, upload-time = "2025-05-14T13:37:42.844Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/de/eb/adb8bb3873f4925b3c0c6c223b356ae51303cc9a2068f4f40e9a1d118cbe/pydantic_settings_sops-0.1.2-py3-none-any.whl", hash = "sha256:0e13d68d2630921d4ba1b45806b26d4a38a5bdc8880dba41d439591d331ce903", size = 3905, upload-time = "2025-05-14T13:37:41.532Z" },
 ]
 
 [[package]]
@@ -975,18 +960,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/94/e7/b2c673351809dca68a0e064b6af791aa332cf192da575fd474ed7d6f16a2/six-1.17.0.tar.gz", hash = "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81", size = 34031, upload-time = "2024-12-04T17:35:28.174Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274", size = 11050, upload-time = "2024-12-04T17:35:26.475Z" },
-]
-
-[[package]]
-name = "sopsy"
-version = "1.2.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pyyaml" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/af/bd/55feeb922c4e83c02a36a81d09beebf4cd1dc8ceac36e0d25a39359a2e32/sopsy-1.2.1.tar.gz", hash = "sha256:2159a82f6fee10b7e29b688e4a0bdc1a50e96e8da2357ff46f97554aff0990f1", size = 108860, upload-time = "2025-07-26T19:41:10.626Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/8b/d3/fbb22b18176ee0aa41af23ccaeee2ce879158042bf2335dfdcbc14bc5ea6/sopsy-1.2.1-py3-none-any.whl", hash = "sha256:3ff3fae9d53eb52acb5b3c15662db2f9521b8e2fb1a199872c37fb330d84d8c4", size = 7486, upload-time = "2025-07-26T19:41:09.488Z" },
 ]
 
 [[package]]

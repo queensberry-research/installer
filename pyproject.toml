@@ -15,7 +15,6 @@
     "coloredlogs >=15.0.1, <15.1",
     "dycw-utilities >=0.169.5, <0.170",
     "pydantic-settings >=2.12.0, <2.13",
-    "pydantic-settings-sops >=0.1.2, <0.2",
     "requests >=2.32.5, <2.33",
   ]
   name = "installer"
