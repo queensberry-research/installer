@@ -31,12 +31,16 @@ def _main(*, asdf: bool, create_non_root: bool = False) -> None:
 
 
 def _create_non_root() -> None:
-    if run(f"id -u {NONROOT}", failable=True):
+    if _has_non_root():
         _LOGGER.info("%r already exists", NONROOT)
     else:
         _LOGGER.info("Creating %r...", NONROOT)
         run(f"useradd --create-home --shell /bin/bash {NONROOT}")
         run(f"usermod -aG sudo {NONROOT}")
+
+
+def _has_non_root() -> bool:
+    return run(f"id -u {NONROOT}", failable=True)
 
 
 if __name__ == "__main__":
