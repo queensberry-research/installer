@@ -33,6 +33,7 @@ def _main() -> None:
     _ensure_repo_version(settings.path, version=settings.version)
     _install_uv()
     cmd = " ".join(["uv run python3 -m test_remote_script.main", *args])
+    _run(cmd, cwd=settings.path)
     _LOGGER.info("Running: %r", cmd)
 
 
