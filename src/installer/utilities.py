@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, Literal, NoReturn, assert_never, overload
 if TYPE_CHECKING:
     from pathlib import Path
 
+
 _LOGGER = getLogger(__name__)
 
 
