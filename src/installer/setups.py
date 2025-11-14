@@ -43,11 +43,11 @@ def _set_password_one(username: str, password: str, /) -> None:
     run(f"echo '{username}:{password}' | chpasswd")
 
 
-def setup_bash() -> None:
+def setup_profile() -> None:
     if is_pytest():
         return
-    src = CONFIGS_BASH / "default.bash"
-    dest = Path("/etc/profile.d/default.bash")
+    src = CONFIGS_BASH / "default.sh"
+    dest = Path("/etc/profile.d/default.sh")
     if is_copied(src, dest):
         _LOGGER.info("%r -> %r is already copied", str(src), str(dest))
     else:
@@ -61,9 +61,9 @@ def setup_subnet_env_var() -> None:
     except KeyError, ValueError:
         _LOGGER.warning("Unable to determine subnet")
         return
-    src = CONFIGS_BASH / "subnet.bash"
+    src = CONFIGS_BASH / "subnet.sh"
     text = substitute(src.read_text(), subnet=subnet.value)
-    dest = Path("/etc/profile.d/subnet.bash")
+    dest = Path("/etc/profile.d/subnet.sh")
     if is_copied(text, dest):
         _LOGGER.info("%r -> %r is already copied", str(src), str(dest))
     else:
@@ -111,7 +111,7 @@ def setup_sshd_config_d() -> None:
 __all__ = [
     "create_non_root",
     "set_password",
-    "setup_bash",
+    "setup_profile",
     "setup_ssh_authorized_keys",
     "setup_ssh_config_d",
     "setup_sshd_config_d",
