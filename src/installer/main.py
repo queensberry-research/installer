@@ -18,21 +18,25 @@ _LOGGER = getLogger(__name__)
 
 @command(**CONTEXT_SETTINGS_HELP_OPTION_NAMES)
 @option(
-    "--proxmox",
+    "--proxmox/--no-proxmox",
     is_flag=True,
     default=is_proxmox(),
     show_default=True,
     help="Set up Proxmox",
 )
 @option(
-    "--create-non-root",
+    "--create-non-root/--no-create-non-root",
     is_flag=True,
     default=False,
     show_default=True,
     help="Create 'nonroot'",
 )
 @option(
-    "--docker", is_flag=True, default=is_lxc(), show_default=True, help="Install Docker"
+    "--docker/--no-docker",
+    is_flag=True,
+    default=is_lxc(),
+    show_default=True,
+    help="Install Docker",
 )
 def _main(*, proxmox: bool, create_non_root: bool, docker: bool) -> None:
     _LOGGER.info("Running installer %s...", __version__)
