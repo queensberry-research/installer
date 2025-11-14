@@ -35,9 +35,11 @@ def _create_non_root() -> None:
     try:
         run(f"id -u {NONROOT}")
     except CalledProcessError:
-        _LOGGER.info("Creating 'nonroot'...")
+        _LOGGER.info("Creating %r...", NONROOT)
         run(f"useradd --create-home --shell /bin/bash {NONROOT}")
         run(f"usermod -aG sudo {NONROOT}")
+    else:
+        _LOGGER.info("%r already exists", NONROOT)
 
 
 if __name__ == "__main__":
