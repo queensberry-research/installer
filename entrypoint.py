@@ -94,7 +94,13 @@ def _ensure_repo_version(path: Path | str, /, *, version: str | None = None) -> 
         current = _run("git rev-parse --abbrev-ref HEAD", output=True, cwd=path)
     if current == version:
         _LOGGER.info("Pulling %r on %r...", str(path), current)
-        _run("git pull", cwd=path)
+        try:
+            _run("git pull", cwd=path)
+        except CalledProcessError:
+            _run("git checkout master", cwd=path)
+            _run("git pull", cwd=path)
+            _run(f"git branch -D {current}", cwd=path)
+            _run(f"git checkout {version}", cwd=path)
         return
     _LOGGER.info("Switching %r to %r...", str(path), version)
     _run(f"git checkout {version}", cwd=path)
