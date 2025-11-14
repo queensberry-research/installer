@@ -27,7 +27,7 @@ class _Replacement:
 
 
 def main() -> None:
-    template_dashed = "dycw-template"
+    template_dashed = "test-remote-script"
     template_underscore = template_dashed.replace("-", "_")
 
     name = _get_repo_name()
@@ -37,9 +37,7 @@ def main() -> None:
     ]
 
     pre_commit_replacements = [
-        _Replacement(
-            from_="# - id: run-bump-my-version", to="- id: run-bump-my-version"
-        )
+        _Replacement(from_="- id: run-bump-my-version", to="- id: run-bump-my-version")
     ]
     replacements = list(chain(template_replacements, pre_commit_replacements))
     _process_file_contents(_REPO_ROOT, replacements)

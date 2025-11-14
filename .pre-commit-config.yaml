@@ -29,7 +29,7 @@ repos:
     hooks:
       - id: format-requirements
       - id: replace-sequence-str
-      # - id: run-bump-my-version
+      - id: run-bump-my-version
   - repo: https://github.com/scop/pre-commit-shfmt
     rev: v3.12.0-2
     hooks:
