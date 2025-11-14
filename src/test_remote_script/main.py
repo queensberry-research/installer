@@ -21,4 +21,5 @@ def _main(*, asdf: bool) -> None:
 
 
 if __name__ == "__main__":
+    basic_config(obj=_LOGGER, hostname=True)
     _main()
