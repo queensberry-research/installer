@@ -1,11 +1,21 @@
 from __future__ import annotations
 
-from logging import basicConfig, getLogger
-from socket import gethostname
+from logging import getLogger
 
-LOGGING_FORMAT = (
-    f"[{{asctime}} ❯ {gethostname()} ❯ {{module}}:{{funcName}}:{{lineno}}] {{message}}"  # noqa: RUF001
-)
-basicConfig(format=LOGGING_FORMAT, datefmt="%Y-%m-%d %H:%M:%S", style="{", level="INFO")
+from click import command
+from utilities.logging import basic_config
+
+from test_remote_script import __version__
+
 _LOGGER = getLogger(__name__)
-# THIS MODULE CANNOT CONTAIN ANY THIRD PARTY IMPORTS
+
+
+@command()
+def _main() -> None:
+    basic_config(obj=_LOGGER, hostname=True)
+    _LOGGER.info("Running main %s...", __version__)
+    _LOGGER.warning("Running main %s...", __version__)
+
+
+if __name__ == "__main__":
+    _main()

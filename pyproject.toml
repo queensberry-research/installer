@@ -12,11 +12,18 @@
 # project
 [project]
   authors = [{ email = "d.wan@icloud.com", name = "Derek Wan" }]
-  dependencies = []
+  dependencies = [
+    "click >=8.3.0",
+    "coloredlogs >=15.0.1",
+    "dycw-utilities >=0.169.5",
+  ]
   name = "test-remote-script"
   readme = "README.md"
   requires-python = ">= 3.14"
-  version = "0.1.3"
+  version = "0.1.4"
+
+  [project.scripts]
+    test-remote-script = "test_remote_script.main:_main"
 
 
 # tool
@@ -25,7 +32,7 @@
   # bump-my-version
   [tool.bumpversion]
     allow_dirty = true
-    current_version = "0.1.3"
+    current_version = "0.1.4"
 
     [[tool.bumpversion.files]]
       filename = "entrypoint.py"
