@@ -23,7 +23,7 @@ _IS_ROOT = getuid() == 0
 _SUDO = "" if _IS_ROOT else "sudo "
 _REPO_URL = "https://github.com/dycw/test-remote-script.git"
 _REPO_PATH = Path("/tmp/installer")  # noqa: S108
-__version__ = "0.1.9"
+__version__ = "0.1.10"
 
 
 def _main() -> None:
@@ -46,9 +46,7 @@ class _Settings:
     @classmethod
     def parse(cls) -> tuple[Self, Any]:
         parser = ArgumentParser(
-            formatter_class=ArgumentDefaultsHelpFormatter,
-            add_help=False,
-            suggest_on_error=True,
+            formatter_class=ArgumentDefaultsHelpFormatter, add_help=False
         )
         _ = parser.add_argument(
             "--repo-url", type=str, default=_REPO_URL, help="Repo URL", dest="url"

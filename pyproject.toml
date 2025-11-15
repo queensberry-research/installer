@@ -19,8 +19,8 @@
   ]
   name = "installer"
   readme = "README.md"
-  requires-python = ">= 3.14"
-  version = "0.1.9"
+  requires-python = ">= 3.13"
+  version = "0.1.10"
 
   [project.scripts]
     installer = "installer.main:_main"
@@ -32,7 +32,7 @@
   # bump-my-version
   [tool.bumpversion]
     allow_dirty = true
-    current_version = "0.1.9"
+    current_version = "0.1.10"
 
     [[tool.bumpversion.files]]
       filename = "entrypoint.py"
@@ -64,7 +64,7 @@
   # nitpick
   [tool.nitpick]
     style = [
-      "https://raw.githubusercontent.com/dycw/nitpick/master/styles/3.14.toml",
+      "https://raw.githubusercontent.com/dycw/nitpick/master/styles/3.13.toml",
       "https://raw.githubusercontent.com/dycw/nitpick/master/styles/common.toml",
     ]
 
@@ -73,7 +73,7 @@
     deprecateTypingAliases = true
     enableReachabilityAnalysis = false
     ignore = ["**/_typeshed/**"]
-    pythonVersion = "3.14"
+    pythonVersion = "3.13"
     reportAny = false
     reportCallInDefaultInitializer = true
     reportImplicitOverride = true
@@ -114,7 +114,7 @@
   # ruff
   [tool.ruff]
     src = ["src"]
-    target-version = "py314"
+    target-version = "py313"
     unsafe-fixes = true
 
     [tool.ruff.format]

@@ -15,6 +15,7 @@ from requests import get
 from utilities.atomicwrites import writer
 from utilities.functools import cache
 from utilities.iterables import OneEmptyError, one
+from utilities.os import is_pytest
 from utilities.tempfile import TemporaryDirectory
 
 from installer.constants import NONROOT
@@ -30,6 +31,14 @@ _LOGGER = getLogger(__name__)
 
 def add_mode(path: Path, mode: int, /) -> None:
     path.chmod(path.stat().st_mode | mode)
+
+
+def apt_install(pkg: str, /) -> None:
+    run(f"apt install {pkg}")
+
+
+def apt_installed(pkg: str, /) -> bool:
+    return run(f"apt list --installed {pkg}") != ""
 
 
 def apt_update() -> None:
@@ -55,6 +64,8 @@ def copy(src: Path | str, dest: Path, /, **kwargs: Any) -> None:
         case str():
             if len(kwargs) >= 1:
                 src = substitute(src, **kwargs)
+            if is_pytest():
+                return None
             with writer(dest, overwrite=True) as temp_dir:
                 _ = temp_dir.write_text(src)
             return None
@@ -96,6 +107,14 @@ def is_lxc() -> bool:
 @cache
 def is_proxmox() -> bool:
     return Path("/etc/pve").is_dir()
+
+
+@cache
+def is_vm() -> bool:
+    try:
+        return run("systemd-detect-virt --vm", output=True) == "kvm"
+    except CalledProcessError:
+        return False
 
 
 @overload
@@ -225,13 +244,17 @@ def yield_github_download(owner: str, repo: str, filename: str, /) -> Iterator[P
 
 __all__ = [
     "add_mode",
+    "apt_install",
+    "apt_installed",
     "apt_update",
     "copy",
     "dpkg_install",
+    "get_subnet",
     "has_non_root",
     "is_copied",
     "is_lxc",
     "is_proxmox",
+    "is_vm",
     "run",
     "substitute",
     "yield_github_download",

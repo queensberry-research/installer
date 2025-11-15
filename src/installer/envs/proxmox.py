@@ -13,14 +13,14 @@ def setup_proxmox(
     *, storage_cfg: Path = CONFIGS_PROXMOX_STORAGE_CFG, pbs_password: str | None = None
 ) -> None:
     _LOGGER.info("Setting up Proxmox...")
-    _remove_sources()
+    _remove_apt_sources()
     _setup_pve_fake_subscription()
     _setup_storage_cfg(src=storage_cfg)
     _setup_pbs_data_pw(password=pbs_password)
     _LOGGER.info("Finished setting up Proxmox")
 
 
-def _remove_sources() -> None:
+def _remove_apt_sources() -> None:
     paths = {
         p
         for n in ["ceph", "pve-enterprise"]

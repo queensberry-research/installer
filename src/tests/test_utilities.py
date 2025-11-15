@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from pytest import mark, param
 
 from installer.enums import Subnet
-from installer.utilities import get_subnet, has_non_root, is_lxc, is_proxmox, run
+from installer.utilities import get_subnet, has_non_root, is_lxc, is_proxmox, is_vm, run
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -31,6 +31,11 @@ class TestIsLXC:
 class TestIsProxmox:
     def test_main(self) -> None:
         assert isinstance(is_proxmox(), bool)
+
+
+class TestIsVM:
+    def test_main(self) -> None:
+        assert isinstance(is_vm(), bool)
 
 
 class TestRun:
