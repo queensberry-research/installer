@@ -2,6 +2,16 @@
   chunk_size = 8192
   timeout = 30
 
+[ssh]
+  max_tries = 30
+
+  [[ssh.known_hosts]]
+    hostname = "github.com"
+
+  [[ssh.known_hosts]]
+    hostname = "gitlab.qrt"
+    port = 2424
+
 [subnets]
   main = 50
   qrt = 20

@@ -19,6 +19,7 @@ from installer.setups import (
     setup_profile,
     setup_ssh_authorized_keys,
     setup_ssh_config_d,
+    setup_ssh_known_hosts,
     setup_sshd_config_d,
     setup_subnet_env_var,
 )
@@ -93,6 +94,7 @@ def _main(
     setup_profile()
     setup_ssh_authorized_keys(ssh_authorized_keys)
     setup_ssh_config_d()
+    setup_ssh_known_hosts()
     setup_sshd_config_d()
     setup_subnet_env_var()
     install_starship()

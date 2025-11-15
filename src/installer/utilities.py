@@ -219,6 +219,12 @@ def substitute(text: str, /, **kwargs: Any) -> str:
     return Template(text).substitute(**kwargs)
 
 
+def touch(path: Path, /) -> None:
+    if is_pytest():
+        return
+    path.touch()
+
+
 @contextmanager
 def yield_github_download(owner: str, repo: str, filename: str, /) -> Iterator[Path]:
     releases = f"{owner}/{repo}/releases"
@@ -257,5 +263,6 @@ __all__ = [
     "is_vm",
     "run",
     "substitute",
+    "touch",
     "yield_github_download",
 ]
