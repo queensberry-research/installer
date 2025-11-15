@@ -74,7 +74,6 @@
     enableReachabilityAnalysis = false
     ignore = ["**/_typeshed/**"]
     pythonVersion = "3.13"
-    reportAny = false
     reportCallInDefaultInitializer = true
     reportImplicitOverride = true
     reportImplicitStringConcatenation = true
@@ -84,7 +83,6 @@
     reportMissingTypeStubs = false
     reportPrivateUsage = false
     reportPropertyTypeMismatch = true
-    reportShadowedImports = true
     reportUninitializedInstanceVariable = true
     reportUnknownArgumentType = false
     reportUnknownMemberType = false
