@@ -23,7 +23,7 @@ _IS_ROOT = getuid() == 0
 _SUDO = "" if _IS_ROOT else "sudo "
 _REPO_URL = "https://github.com/queensberry-research/installer.git"
 _REPO_PATH = Path("/tmp/installer")  # noqa: S108
-__version__ = "0.1.13"
+__version__ = "0.1.14"
 
 
 def _main() -> None:
@@ -116,7 +116,7 @@ def _install_uv() -> None:
     url = "https://astral.sh/uv/install.sh"
     path = Path("/usr/local/bin")
     _run(f"curl -LsSf {url} | env UV_INSTALL_DIR={path} UV_NO_MODIFY_PATH=1 sh")
-    _run(f"chmod +x {path}/{{uv, uvx}}")
+    _run(f"chmod +x {path}/{{uv,uvx}}")
 
 
 @overload
