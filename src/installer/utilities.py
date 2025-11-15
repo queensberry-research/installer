@@ -29,9 +29,9 @@ if TYPE_CHECKING:
 
 
 _LOGGER = getLogger(__name__)
+_FS_IMMUTABLE_FL = 0x00000010
 _FS_IOC_GETFLAGS = 0x80086601
 _FS_IOC_SETFLAGS = 0x40086602
-_FS_IMMUTABLE_FL = 0x00000010
 
 
 def add_mode(path: Path, mode: int, /) -> None:
@@ -112,13 +112,11 @@ def has_non_root() -> bool:
 
 
 def is_immutable(path: Path, /) -> bool:
-    ioc_getflags = 0x80086601
-    immutable_flag = 0x00000010
     with path.open("rb") as fh:
         buf = bytearray(4)
-        ioctl(fh.fileno(), ioc_getflags, buf)
+        ioctl(fh.fileno(), _FS_IOC_GETFLAGS, buf)
         flags = unpack("I", buf)[0]
-        return bool(flags & immutable_flag)
+        return bool(flags & _FS_IMMUTABLE_FL)
 
 
 @cache
