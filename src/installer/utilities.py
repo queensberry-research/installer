@@ -249,6 +249,7 @@ __all__ = [
     "apt_update",
     "copy",
     "dpkg_install",
+    "get_subnet",
     "has_non_root",
     "is_copied",
     "is_lxc",
