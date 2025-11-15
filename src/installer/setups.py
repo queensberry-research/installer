@@ -3,7 +3,7 @@ from __future__ import annotations
 from logging import getLogger
 from pathlib import Path
 
-from installer.constants import CONFIGS_PROFILE, CONFIGS_SSH, NONROOT, ROOT
+from installer.constants import CONFIGS, CONFIGS_PROFILE, CONFIGS_SSH, NONROOT, ROOT
 from installer.utilities import (
     copy,
     get_subnet,
@@ -39,6 +39,16 @@ def set_password(*, password: str | None = None) -> None:
 def _set_password_one(username: str, password: str, /) -> None:
     _LOGGER.info("Setting %r password...", ROOT)
     run(f"echo '{username}:{password}' | chpasswd")
+
+
+def setup_git() -> None:
+    src = CONFIGS / "git/config"
+    dest = Path("/etc/gitconfig")
+    if is_copied(src, dest):
+        _LOGGER.info("%r -> %r is already copied", str(src), str(dest))
+    else:
+        _LOGGER.info("Copying %r -> %r...", str(src), str(dest))
+        copy(src, dest)
 
 
 def setup_profile() -> None:
@@ -101,6 +111,7 @@ def setup_sshd_config_d() -> None:
 __all__ = [
     "create_non_root",
     "set_password",
+    "setup_git",
     "setup_profile",
     "setup_ssh_authorized_keys",
     "setup_ssh_config_d",

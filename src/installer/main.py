@@ -15,6 +15,7 @@ from installer.envs.proxmox import setup_proxmox
 from installer.installs import install_docker, install_starship
 from installer.setups import (
     set_password,
+    setup_git,
     setup_profile,
     setup_ssh_authorized_keys,
     setup_ssh_config_d,
@@ -88,6 +89,7 @@ def _main(
     if create_non_root:
         installer.setups.create_non_root()
     set_password(password=password)
+    setup_git()
     setup_profile()
     setup_ssh_authorized_keys(ssh_authorized_keys)
     setup_ssh_config_d()

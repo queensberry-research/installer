@@ -11,6 +11,7 @@ class TestConstants:
         assert CONFIGS.is_dir()
         assert {p.name for p in CONFIGS.iterdir()} == {
             "config.toml",
+            "git",
             "profile",
             "proxmox",
             "ssh",
