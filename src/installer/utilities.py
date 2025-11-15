@@ -244,6 +244,10 @@ def substitute(text: str, /, **kwargs: Any) -> str:
     return Template(text).substitute(**kwargs)
 
 
+def systemctl_restart(service: str, /) -> None:
+    run(f"systemctl restart {service}")
+
+
 def touch(path: Path, /) -> None:
     if is_pytest():
         return
@@ -297,6 +301,7 @@ __all__ = [
     "run",
     "set_immutable",
     "substitute",
+    "systemctl_restart",
     "touch",
     "yield_github_download",
 ]

@@ -16,6 +16,7 @@ from installer.utilities import (
     run,
     set_immutable,
     substitute,
+    systemctl_restart,
     touch,
 )
 
@@ -119,6 +120,7 @@ def setup_ssh_config_d() -> None:
     else:
         _LOGGER.info("Copying %r -> %r...", str(src), str(dest))
         copy(src, dest)
+        systemctl_restart("sshd")
 
 
 def setup_ssh_known_hosts() -> None:
@@ -129,6 +131,7 @@ def setup_ssh_known_hosts() -> None:
     touch(path)
     for known_host in SETTINGS.ssh.known_hosts:
         _setup_ssh_known_hosts_one(known_host.hostname, port=known_host.port)
+    systemctl_restart("sshd")
 
 
 def _setup_ssh_known_hosts_one(hostname: str, /, *, port: int | None = None) -> None:
@@ -140,6 +143,7 @@ def _setup_ssh_known_hosts_one(hostname: str, /, *, port: int | None = None) -> 
     cmd = " ".join(parts)
     for _ in range(1, SETTINGS.ssh.max_tries + 1):
         if run(cmd, failable=True):
+            systemctl_restart("sshd")
             return
     msg = f"{cmd!r} failed after {SETTINGS.ssh.max_tries} tries"
     raise RuntimeError(msg)
@@ -153,6 +157,7 @@ def setup_sshd_config_d() -> None:
     else:
         _LOGGER.info("Copying %r -> %r...", str(src), str(dest))
         copy(src, dest)
+        systemctl_restart("sshd")
 
 
 __all__ = [

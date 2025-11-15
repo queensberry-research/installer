@@ -20,7 +20,7 @@
   name = "installer"
   readme = "README.md"
   requires-python = ">= 3.13"
-  version = "0.1.15"
+  version = "0.1.16"
 
   [project.scripts]
     installer = "installer.main:_main"
@@ -32,7 +32,7 @@
   # bump-my-version
   [tool.bumpversion]
     allow_dirty = true
-    current_version = "0.1.15"
+    current_version = "0.1.16"
 
     [[tool.bumpversion.files]]
       filename = "entrypoint.py"
