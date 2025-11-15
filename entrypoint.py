@@ -23,7 +23,7 @@ _IS_ROOT = getuid() == 0
 _SUDO = "" if _IS_ROOT else "sudo "
 _REPO_URL = "https://github.com/queensberry-research/installer.git"
 _REPO_PATH = Path("/tmp/installer")  # noqa: S108
-__version__ = "0.1.15"
+__version__ = "0.1.16"
 
 
 def _main() -> None:
