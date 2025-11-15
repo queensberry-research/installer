@@ -73,7 +73,7 @@ def setup_resolv_conf() -> None:
     except (KeyError, ValueError):
         _LOGGER.warning("Unable to determine subnet")
         return
-    src = CONFIGS / "networking/default.sh"
+    src = CONFIGS / "networking/resolv.conf"
     text = substitute(src.read_text(), n=subnet.n, subnet=subnet.value)
     dest = Path("/etc/resolv.conf")
     if is_copied(text, dest) and is_immutable(dest):
