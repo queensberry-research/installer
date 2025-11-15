@@ -21,9 +21,9 @@ basicConfig(format=_FORMAT, datefmt="%Y-%m-%d %H:%M:%S", style="{", level="INFO"
 _LOGGER = getLogger(__name__)
 _IS_ROOT = getuid() == 0
 _SUDO = "" if _IS_ROOT else "sudo "
-_REPO_URL = "https://github.com/dycw/test-remote-script.git"
+_REPO_URL = "https://github.com/queensberry-research/installer.git"
 _REPO_PATH = Path("/tmp/installer")  # noqa: S108
-__version__ = "0.1.12"
+__version__ = "0.1.13"
 
 
 def _main() -> None:

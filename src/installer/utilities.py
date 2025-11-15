@@ -98,10 +98,7 @@ def has_non_root() -> bool:
 
 @cache
 def is_lxc() -> bool:
-    try:
-        return run("systemd-detect-virt --container", output=True) == "lxc"
-    except CalledProcessError:
-        return False
+    return run("systemd-detect-virt --container", output=True, failable=True) == "lxc"
 
 
 @cache
@@ -111,10 +108,7 @@ def is_proxmox() -> bool:
 
 @cache
 def is_vm() -> bool:
-    try:
-        return run("systemd-detect-virt --vm", output=True) == "kvm"
-    except CalledProcessError:
-        return False
+    return run("systemd-detect-virt --vm", output=True, failable=True) == "kvm"
 
 
 @overload

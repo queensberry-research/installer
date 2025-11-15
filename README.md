@@ -1,1 +1,1 @@
-# `test-remote-script`
+# `installer`
