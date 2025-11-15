@@ -60,13 +60,11 @@ def setup_subnet_env_var() -> None:
     src = CONFIGS_PROFILE / "subnet.sh"
     text = substitute(src.read_text(), subnet=subnet.value)
     dest = Path("/etc/profile.d/subnet.sh")
-    breakpoint()
-
     if is_copied(text, dest):
         _LOGGER.info("%r -> %r is already copied", str(src), str(dest))
     else:
         _LOGGER.info("Copying %r -> %r...", str(src), str(dest))
-        copy(src, dest)
+        copy(text, dest)
 
 
 def setup_ssh_authorized_keys(*srcs: Path) -> None:
